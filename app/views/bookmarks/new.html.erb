@@ -1,0 +1,13 @@
+<h1><%= @list.name %></h1>
+
+<%= link_to "Add a movie", new_list_bookmark_path(@list), class: "btn btn-primary mb-3" %>
+
+<div class="row">
+  <% @list.bookmarks.each do |bookmark| %>
+    <div class="col-md-3 mb-3">
+      <div class="card">
+
+      </div>
+    </div>
+  <% end %>
+</div>

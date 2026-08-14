@@ -1,20 +1,33 @@
-<h1><%= @list.name %></h1>
-
-<%= link_to "Add a movie", new_list_bookmark_path(@list), class: "btn btn-primary mb-3" %>
-
-<div class="row">
-  <% @list.bookmarks.each do |bookmark| %>
-    <div class="col-md-3 mb-3">
-      <div class="card">
-        <img src="<%= bookmark.movie.poster_url %>" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title"><%= bookmark.movie.title %></h5>
-          <p class="card-text"><%= bookmark.comment %></p>
-          <%= link_to "Remove", bookmark_path(bookmark), method: :delete, data: { turbo_confirm: "Remove this movie from the list?" }, class: "btn btn-danger btn-sm" %>
-        </div>
-      </div>
-    </div>
-  <% end %>
+<% if @list.photo.attached? %>
+  <div class="hero" style="background-image: url('<%= cl_image_path(@list.photo.key) %>')">
+<% else %>
+  <div class="hero" style="background-image: url('https://placehold.co/1200x420?text=No+Image')">
+<% end %>
+  <div class="hero-badge"><%= pluralize(@list.bookmarks.count, "movie") %></div>
+  <div class="hero-content">
+    <h1><%= @list.name %></h1>
+  </div>
 </div>
 
-<%= link_to "Back to all lists", lists_path %>
+<%= link_to "Add a movie", new_list_bookmark_path(@list), class: "btn btn-primary mb-3 mt-3" %>
+
+<% if @list.bookmarks.any? %>
+  <div class="row">
+    <% @list.bookmarks.each do |bookmark| %>
+      <div class="col-md-3 mb-3">
+        <div class="card">
+          <img src="<%= bookmark.movie.poster_url %>" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title"><%= bookmark.movie.title %></h5>
+            <p class="card-text"><%= bookmark.comment %></p>
+            <%= button_to "Remove", bookmark_path(bookmark), method: :delete, data: { turbo_confirm: "Remove this movie from the list?" }, class: "btn btn-danger btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted">No movies in this list yet.</p>
+<% end %>
+
+<%= link_to "Back to all lists", lists_path, class: "mt-3 mb-5 d-block" %>

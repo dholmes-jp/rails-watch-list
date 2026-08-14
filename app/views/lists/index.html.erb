@@ -1,15 +1,20 @@
-<h1>Watch Lists</h1>
+<h1 class="mt-2">Watch Lists</h1>
 
 <%= link_to "New List", new_list_path, class: "btn btn-primary mb-3" %>
 
-<div class="row">
+<div class="cards">
   <% @lists.each do |list| %>
-    <div class="col-md-4 mb-3">
+    <%= link_to list_path(list), class: "text-dark text-decoration-none" do %>
       <div class="card">
+        <% if list.photo.attached? %>
+          <%= cl_image_tag list.photo.key, alt: list.name %>
+        <% else %>
+          <%= image_tag "https://placehold.co/400x300?text=No+Image", alt: list.name %>
+        <% end %>
         <div class="card-body">
-          <h5 class="card-title"><%= link_to list.name, list_path(list) %></h5>
+          <h5 class="card-title"><%= list.name %></h5>
         </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 </div>

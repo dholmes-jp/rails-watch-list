@@ -23,7 +23,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+<body>
     <div class="container mt-5">
       <nav class="navbar d-flex justify-content-between align-items-center">
         <%= link_to lists_path, class: "navbar-brand" do %>
@@ -31,10 +31,29 @@
         <% end %>
       <div>
         <%= link_to "My lists", lists_path, class: "nav-link" %>
-        <%= link_to "New list", new_list_path, class: "nav-link" %>
+        <%= link_to "New list", "#", class: "nav-link", data: { bs_toggle: "modal", bs_target: "#newListModal" } %>
       </div>
     </nav>
       <%= yield %>
+    </div>
+
+    <div class="modal fade" id="newListModal" tabindex="-1" aria-labelledby="newListModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newListModalLabel">New List</h5>
+            <%= button_tag type: "button", class: "btn-close", data: { bs_dismiss: "modal" }, aria: { label: "Close" } do %>
+            <% end %>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for List.new do |f| %>
+              <%= f.input :name %>
+              <%= f.input :photo, as: :file %>
+              <%= f.submit "Create List", class: "btn btn-primary mt-2" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
